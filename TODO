@@ -1,0 +1,8 @@
+* Components to implement
+	- carray
+	- cdict
+	- cini
+	- linked lists
+	- btree
+	- magnet parse
+	- hash functions (MD4,MD5,MD6,SHA1,SHA2,SHA256,...)
