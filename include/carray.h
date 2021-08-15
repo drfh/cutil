@@ -8,12 +8,6 @@
 #define	kCARRAY_VERSION					"1.0.0"
 #define	kCARRAY_DEFAULT_PREALLOC		32
 
-#define DEBUG
-#ifdef DEBUG
-	#define CARRAY_SAFE
-	#define CARRAY_ERROR_OUTPUTS
-#endif
-
 
 /********************************/
 /*{S}	Experimental			*/

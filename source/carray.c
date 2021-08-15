@@ -9,12 +9,6 @@
 #endif
 
 
-//#define	kErrorAtLineInFuntion_NULL		fprintf(stderr,"%s [%s](%d): carray == NULL\n",__FILE__,__FUNCTION__,__LINE__);
-//#define	kErrorAtLineInFuntion_SAMEVALUE	fprintf(stderr,"%s [%s](%d): same value passed\n",__FILE__,__FUNCTION__,__LINE__);
-#define	kErrorAtLineInFuntion_NULL
-#define	kErrorAtLineInFuntion_SAMEVALUE
-
-
 /********************************/
 /*{S}	Internals				*/
 //	Functions(Private)
@@ -78,15 +72,6 @@ carray_t* carray_newPrealloc(uint32_t hint)
 
 void carray_growHint(carray_t *a,uint32_t increase)
 {
-	#ifdef CARRAY_SAFE
-	if(a==NULL)
-	{
-		#ifdef CARRAY_ERROR_OUTPUTS
-		kErrorAtLineInFuntion_NULL
-		#endif
-		return;
-	}
-	#endif
 	assert(increase != 0);
 	assert(increase < kMAX_CARRAY_GROW_HINT);
 }
@@ -106,9 +91,6 @@ inline void carray_destroyClean(carray_t **a,bool clean)
 {
 	if(*a==NULL)
 	{
-		#ifdef CARRAY_ERROR_OUTPUTS
-		kErrorAtLineInFuntion_NULL
-		#endif
 		return;
 	}
 	if(clean==true)
@@ -136,7 +118,6 @@ void carray_add(carray_t *a,void* ptr)
 {
 	if(a==NULL)
 	{
-		kErrorAtLineInFuntion_NULL
 		return;
 	}
 	// If there is not enough space in the memory bucket get a bigger one.
@@ -152,16 +133,6 @@ void carray_add(carray_t *a,void* ptr)
 
 void carray_insert(carray_t *a,void* ptr,uint64_t index)
 {
-	#ifdef CARRAY_SAFE
-	if(a==NULL)
-	{
-		#ifdef CARRAY_ERROR_OUTPUTS
-		kErrorAtLineInFuntion_NULL
-		#endif
-		return;
-	}
-	assert(index < a->count);
-	#endif
 	memmove((void*)((uint64_t)(a->ptr)+index+1),(void*)((uint64_t)(a->ptr)+index),sizeof(void*)*(a->count-index));
 	a->ptr[index]=ptr;
 }
@@ -169,16 +140,6 @@ void carray_insert(carray_t *a,void* ptr,uint64_t index)
 
 void carray_remove(carray_t *a,void* ptr)
 {
-	#ifdef CARRAY_SAFE
-	if(a==NULL)
-	{
-		#ifdef CARRAY_ERROR_OUTPUTS
-		kErrorAtLineInFuntion_NULL
-		#endif
-		return;
-	}
-	assert(ptr != NULL);
-	#endif
 	uint64_t		i;
 	if((i=carray_IndexOfPtr(a,ptr))!=0xFFFFFFFFFFFFFFFF)
 		carray_removeIndex(a,i);
@@ -186,15 +147,6 @@ void carray_remove(carray_t *a,void* ptr)
 
 void carray_removeIndex(carray_t *a,uint64_t index)
 {
-	#ifdef CARRAY_SAFE
-	if(a==NULL)
-	{
-		#ifdef CARRAY_ERROR_OUTPUTS
-		kErrorAtLineInFuntion_NULL
-		#endif
-		return;
-	}
-	#endif
 	if(index >= a->count)
 	{
 		//fprintf(stderr,"%s (%d)[%s]: Index %ld beyond limit: %ld\n",__FILE__,__LINE__,__FUNCTION__,index,a->count);
@@ -222,17 +174,7 @@ void carray_removeIndex(carray_t *a,uint64_t index)
 
 void* carray_PtrAtindex(carray_t *a,uint64_t index)
 {
-	#ifdef CARRAY_SAFE
-	if(a==NULL)
-	{
-		#ifdef CARRAY_ERROR_OUTPUTS
-		kErrorAtLineInFuntion_NULL
-		#endif
-		return NULL;
-	}
 	assert(index < a->count);
-	#endif
-
 	return a->ptr[index];
 //	return NULL;
 }
@@ -240,15 +182,6 @@ uint64_t carray_IndexOfPtr(carray_t *a,void* ptr)
 {
 	uint64_t	i=0;
 
-	#ifdef CARRAY_SAFE
-	if(a==NULL)
-	{
-		#ifdef CARRAY_ERROR_OUTPUTS
-		kErrorAtLineInFuntion_NULL
-		#endif
-		return -1;
-	}
-	#endif
 	assert(ptr != NULL);
 	while(a->count>i)
 	{
@@ -261,15 +194,10 @@ uint64_t carray_IndexOfPtr(carray_t *a,void* ptr)
 
 uint64_t carray_count(carray_t *a)
 {
-	#ifdef CARRAY_SAFE
 	if(a==NULL)
 	{
-		#ifdef CARRAY_ERROR_OUTPUTS
-		kErrorAtLineInFuntion_NULL
-		#endif
 		return 0;
 	}
-	#endif
 	return a->count;
 }
 
@@ -277,7 +205,6 @@ void carray_swap(carray_t *a,uint64_t index1,uint64_t index2)
 {
 	if(a==NULL)
 	{
-		kErrorAtLineInFuntion_NULL
 		return;
 	}
 	if(index1<a->count)
@@ -295,12 +222,10 @@ void carray_MoveTo(carray_t *a,uint64_t from,uint64_t to)
 {
 	if(a==NULL)
 	{
-		kErrorAtLineInFuntion_NULL
 		return;
 	}
 	if(from==to)
 	{
-		kErrorAtLineInFuntion_SAMEVALUE
 		return;
 	}
 	if(from<a->count && to<a->count)
