@@ -1,0 +1,10 @@
+{
+  "targets":{
+		"Release":{
+			"cmd":"ninja -C ./build/"
+		},
+		"Debug":{
+			"cmd":"ninja -C ./build/"
+		}
+  }
+}
