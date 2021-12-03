@@ -3,6 +3,6 @@
 -iprefix./cutil/
 -I./headers/
 -I./globals/
-
+-I./_build/include-workaround-meson/
 -I./source/
 -I./usr/include/x86_64-linux-gnu/

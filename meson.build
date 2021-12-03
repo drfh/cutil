@@ -90,6 +90,7 @@ project_target = shared_library(
 	c_args : build_args,
 	# gnu_symbol_visibility : 'hidden',
 	include_directories : [public_headers,private_headers],
+	dependencies:dependencies
 )
 # project_target=shared_library('libpeers', project_source_files, include_directories:project_headers, dependencies:dependencies, version:'0.1.0', soversion:'0')
 # cutils=library('cutils', project_source_files, include_directories:project_headers, version : '0.1.0', soversion : '0')
