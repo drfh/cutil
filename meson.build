@@ -45,6 +45,7 @@ subdir('include-workaround-meson/cutil')
 # ]
 
 build_args = [
+'-Wpedantic'
 ]
 
 dependencies=[
