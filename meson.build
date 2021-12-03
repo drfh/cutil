@@ -105,6 +105,10 @@ project_dep = declare_dependency(
 	link_with : project_target
 )
 set_variable(meson.project_name() + '_dep', project_dep)
+if meson.version().version_compare('>=0.54.0')
+	meson.override_dependency('libcutil', project_dep)
+endif
+
 
 # Make this library usable from the system's
 # package manager.
