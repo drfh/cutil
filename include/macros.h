@@ -16,6 +16,8 @@
 #define kTb(x)		(x*kGb(1000))
 #define kPb(x)		(x*kTb(1000))
 
+#define kKB4		(kKB(4))
+#define k4KB		(kKB(4))
 
-
+extern int make_iso_compilers_happy;
 #endif // _CUTIN_MACROS_H_
