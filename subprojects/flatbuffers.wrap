@@ -1,0 +1,9 @@
+[wrap-file]
+directory = flatbuffers-1.11.0
+source_url = https://github.com/google/flatbuffers/archive/v1.11.0.tar.gz
+source_filename = flatbuffers-1.11.0.tar.gz
+source_hash = 3f4a286642094f45b1b77228656fbd7ea123964f19502f9ecfd29933fd23a50b
+patch_url = https://wrapdb.mesonbuild.com/v2/flatbuffers_1.11.0-1/get_patch
+patch_filename = flatbuffers-1.11.0-1-wrap.zip
+patch_hash = 7accfd6793992593030c3c9e027ec99b050ce8e761189cde66e22deba744c3c3
+

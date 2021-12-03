@@ -1,5 +1,5 @@
-#include "global.h"
 #include <stdint.h>
+#include <inttypes.h>
 #include <stdbool.h>
 
 #ifndef _CARRAY_H_
@@ -31,14 +31,13 @@ enum ca_opt{
 };
 typedef	enum ca_opt		carrayopt_e;
 
-struct carray_flags_t
+typedef struct carray_flags_t
 {
 	bool	shouldShrink;
 	bool	isExperimental;
-};
-typedef	struct carray_flags_t		carray_flags_t;
+}carray_flags_t;
 
-struct carray_t
+typedef struct
 {
 	uint64_t	count;
 	uint64_t	allocated;
@@ -49,8 +48,7 @@ struct carray_t
 	// linked list buckets
 	// cbucket_t	*first;
 	// cbucket_t	*last;
-};
-typedef	struct carray_t		carray_t;
+}carray_t;
 
 
 void carray_init(carrayopt_e opt,void* value);
@@ -62,7 +60,8 @@ void carray_growHint(carray_t *a,uint32_t increase);
 void carray_free(carray_t **a);
 void carray_destroy(carray_t **a);
 
-void carray_add(carray_t *a,void* ptr);
+void carray_add(carray_t *a,void* p);
+void carray_addPtr(carray_t *a,void* ptr);
 void carray_insert(carray_t *a,void* ptr,uint64_t index);
 
 void carray_remove(carray_t *a,void* ptr);
@@ -74,5 +73,9 @@ uint64_t carray_IndexOfPtr(carray_t *a,void* ptr);
 uint64_t carray_count(carray_t *a);
 void carray_swap(carray_t *a,uint64_t index1,uint64_t index2);
 void carray_MoveTo(carray_t *a,uint64_t from,uint64_t to);
+
+
+#define carray_length(a)		carray_count(a)
+
 
 #endif // _CARRAY_H_

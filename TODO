@@ -6,3 +6,12 @@
 	- btree
 	- magnet parse
 	- hash functions (MD4,MD5,MD6,SHA1,SHA2,SHA256,...)
+
+
+*	Use a kind of linked list for quick and easy array expatiation and contraction
+*	Threadsafe attributes
+
+*	Future roadmap work
+#	Make allocations dynamic
+#	Make malloc, free and realloc use a macro
+#	Experimental memory blocks for 32 bit addressing on 64 bit hardware

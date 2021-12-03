@@ -1,6 +1,6 @@
+#include "global.h"
 #include "carray.h"
 
-//#include <stdio.h>
 #include <assert.h>
 #include <string.h>
 
@@ -59,14 +59,14 @@ carray_t* carray_newPrealloc(uint32_t hint)
 {
 	carray_t		*a;
 
-	a=DHMALLOC(sizeof(carray_t));
+	a=malloc(sizeof(carray_t));
 	a->count=0;
 	a->allocated=hint;
 	a->inc=kCARRAY_DEFAULT_PREALLOC;
 
 	a->flags.shouldShrink=default_flags.shouldShrink;
 	a->flags.isExperimental=default_flags.isExperimental;
-	a->ptr=(void**)DHMALLOC(sizeof(void*)*hint);
+	a->ptr=(void**)malloc(sizeof(void*)*hint);
 	return a;
 }
 
@@ -74,6 +74,7 @@ void carray_growHint(carray_t *a,uint32_t increase)
 {
 	assert(increase != 0);
 	assert(increase < kMAX_CARRAY_GROW_HINT);
+	a->inc=increase;
 }
 
 
@@ -106,15 +107,15 @@ inline void carray_destroyClean(carray_t **a,bool clean)
 		int		t=(*a)->count;
 		while(t)
 		{
-			DHFREE((*a)->ptr[t-1]);
+			free((*a)->ptr[t-1]);
 			t--;
 		}
 	}
-	DHFREE(*a);
+	free(*a);
 	*a=NULL;
 }
 
-void carray_add(carray_t *a,void* ptr)
+void carray_add(carray_t *a,void* p)
 {
 	if(a==NULL)
 	{
@@ -123,8 +124,25 @@ void carray_add(carray_t *a,void* ptr)
 	// If there is not enough space in the memory bucket get a bigger one.
 	if(a->count==a->allocated)
 	{
-		a->allocated+=kCARRAY_DEFAULT_PREALLOC;
-		a->ptr=DHREALLOC(a->ptr,sizeof(void**)*kCARRAY_DEFAULT_PREALLOC);
+		a->allocated+=a->inc;
+		a->ptr=realloc(a->ptr,sizeof(void**)*a->allocated);
+	}
+
+	a->ptr[a->count]=p;
+	a->count++;
+}
+
+void carray_addPtr(carray_t *a,void* ptr)
+{
+	if(a==NULL)
+	{
+		return;
+	}
+	// If there is not enough space in the memory bucket get a bigger one.
+	if(a->count==a->allocated)
+	{
+		a->allocated+=a->inc;
+		a->ptr=realloc(a->ptr,sizeof(void**)*a->allocated);
 	}
 
 	a->ptr[a->count]=ptr;
@@ -149,14 +167,14 @@ void carray_removeIndex(carray_t *a,uint64_t index)
 {
 	if(index >= a->count)
 	{
-		//fprintf(stderr,"%s (%d)[%s]: Index %ld beyond limit: %ld\n",__FILE__,__LINE__,__FUNCTION__,index,a->count);
+		//assert(index >= a->count, "Index %ld beyond limit: %ld\n",index,a->count);
 		return;
 	}
 	a->ptr[index]=NULL;
 	if(index!=a->count-1)
 	{
-		void*	src=(void*)((uint64_t)(a->ptr)+((index+1)*sizeof(void*)));
-		void*	dest=(void*)((uint64_t)(a->ptr)+(index*sizeof(void*)));
+		void*	src=(void*)((uintptr_t)a->ptr+((index+1)*sizeof(void*)));
+		void*	dest=(void*)((uintptr_t)a->ptr+(index*sizeof(void*)));
 
 		memmove(dest,src,(a->count-index)*sizeof(void*));
 	}
@@ -211,7 +229,7 @@ void carray_swap(carray_t *a,uint64_t index1,uint64_t index2)
 	{
 		if(index2<a->count)
 		{
-			uint64_t	temp=(uint64_t)(a->ptr[index1]);
+			void*	temp=(a->ptr[index1]);
 			a->ptr[index1]=a->ptr[index2];
 			a->ptr[index2]=(void*)temp;
 		}
@@ -232,21 +250,21 @@ void carray_MoveTo(carray_t *a,uint64_t from,uint64_t to)
 	{
 		if(from<to)
 		{
-			uint64_t	temp=(uint64_t)(a->ptr[from]);
-			uint64_t	dest=((uint64_t)(a->ptr)+(sizeof(void*) * from));
+			void*	temp=(a->ptr[from]);
+			void*	dest=(a->ptr)+(sizeof(void*) * from);
 
-			memmove((void*)dest,(void*)(dest+ sizeof(void*)),(to-from) * sizeof(void*));
+			memmove((void*)dest,(void*)((uintptr_t)dest + sizeof(void*)),(to-from) * sizeof(void*));
 			a->ptr[to]=(void*)temp;
 		}
 		else if(from>to)
 		{
-			uint64_t	temp=(uint64_t)(a->ptr[to]);
+			void*	temp=(a->ptr[to]);
 
-			uint64_t	dest=((uint64_t)(a->ptr)+(sizeof(void*) * to));
-			uint64_t	p=dest+sizeof(void*);
+			void*	dest=((&a->ptr)+(sizeof(void*) * to));
+			void*	p=(void*)(&dest+sizeof(void*));
 
 			memmove((void*)dest,(void*)p,(from-to)*sizeof(void*));
-			a->ptr[from]=(void*)temp;
+			a->ptr[from]=temp;
 		}
 	}
 }
