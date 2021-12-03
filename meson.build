@@ -30,6 +30,7 @@ project_headers = [
 	,'include/clist.h'
 	,'include/cmemory.h'
 	,'include/cstack.h'
+	,'include/macros.h'
 	,'include/mybzero.h'
 	,'include/sdict.h'
 	,'include/sstring.h'

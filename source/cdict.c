@@ -1,6 +1,7 @@
 #include "cdict.h"
 #include "global.h"
 
+#include <stdlib.h>
 #include <assert.h>
 #include <memory.h>
 

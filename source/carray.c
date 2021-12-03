@@ -1,6 +1,7 @@
 #include "global.h"
 #include "carray.h"
 
+#include <stdlib.h>
 #include <assert.h>
 #include <string.h>
 

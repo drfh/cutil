@@ -1,13 +1,6 @@
-#include <stdlib.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <limits.h>
-#include <ctype.h>
 
-
-#ifndef _GLOBAL_DEFS_H_
-#define	_GLOBAL_DEFS_H_
+#ifndef _CUTIN_MACROS_H_
+#define	_CUTIN_MACROS_H_
 
 //	Memmory allocation size macros
 #define kKB(x)		(x*1024)
@@ -25,4 +18,4 @@
 
 
 
-#endif // _GLOBAL_DEFS_H_
+#endif // _CUTIN_MACROS_H_
