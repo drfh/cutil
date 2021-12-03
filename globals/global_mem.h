@@ -13,4 +13,5 @@
 	#define	DHREALLOC(x,y)	realloc(x,y)
 #endif
 
+extern int make_iso_compilers_happy;
 #endif // _GLOBAL_MEM_H_
