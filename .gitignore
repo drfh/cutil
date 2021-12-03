@@ -52,6 +52,26 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-build/
-scratch/
+# Platform/OS file system junk
+.DS_Store
+Thumbs.db
+
+# Meson folders
+build/*
+_build/*
+install/*
+_install/*
+subprojects/*/
+!/subprojects/*.wrap
+
+# Ignore files for other services
+.dockerignore
 .megaignore
+
+# Project temp and trash folders
+scratch/*
+_scratch/*
+.megaignore
+
+# Project specific files #
+##########################
