@@ -1,14 +1,15 @@
 #include "cdict.h"
 #include "global.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 #include <memory.h>
 
 // #include "carray.h"
 #include "cmemory.h"
 
-#include <stdio.h>
 //	Variables(Private)
 //struct cdict_flags_t	default_flags={.shouldShrink=false,.isExperimental=false};
 /*{E}	Internals				*/
@@ -51,7 +52,7 @@ cdict_t* cdict_new_allocsize(uint32_t size)
 
 int cdict_size(cdict_t *d)
 {
-    assert(d != NULL);
+	assert(d != NULL);
 	if(d!=NULL)
 		return d->count;
 	return 0;
@@ -81,7 +82,7 @@ inline void cdict_empty(cdict_t *d)
 
 void cdict_free(cdict_t **dict)
 {
-    assert(dict != NULL);
+	assert(dict != NULL);
 	cdict_t		*d=*dict;
 
 	cdict_empty(d);
