@@ -2,9 +2,8 @@ project('cutils', 'c',
 	default_options : [
 		'warning_level=3',
 		'werror=false',
-		# This project defaults to a release build
 		'debug=false',
-		'optimization=2',
+		'optimization=0',
 		'c_std=c2x', 'build.c_std=c2x'
 		],
 	license: 'UNLICENSE',
