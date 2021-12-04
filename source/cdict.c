@@ -43,7 +43,7 @@ cdict_t* cdict_new_allocsize(uint32_t size)
 		p->flags.copy_keys=false;
 		p->flags.free_val_on_set=true;
 
-		p->array=(keyval_t**)malloc(sizeof(p->array)*size);
+		p->array=(keyval_t**)malloc(sizeof(*p->array)*size);
 		for(uint32_t i=0;i<size;i++)
 			p->array[i]=0;
 	}
@@ -122,7 +122,7 @@ inline void cdict_grow(cdict_t *d,uint32_t hint)
 	if(d->allocated<=d->count)
 	{
 		d->allocated+=hint;
-		d->array=realloc(d->array,sizeof(d->array)*d->allocated);
+		d->array=realloc(d->array,sizeof(*d->array)*d->allocated);
 	}
 }
 
@@ -249,6 +249,10 @@ void* cdict_set_v4k_dup(cdict_t *d,const char* key,void* v,const size_t size)
 	void	*newval=memdup(v,size);
 
 	oldval=cdict_set_vfork(d,key,newval);
+	if(!oldval)
+	{
+		free(newval);
+	}
 	//	uint32_t	i=cdict_get_kindex(d,key);
 	// if(d->state==err_NOERROR)
 	// {

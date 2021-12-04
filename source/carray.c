@@ -126,7 +126,7 @@ void carray_add(carray_t *a,void* p)
 	if(a->count==a->allocated)
 	{
 		a->allocated+=a->inc;
-		a->ptr=realloc(a->ptr,sizeof(void**)*a->allocated);
+		a->ptr=realloc(a->ptr,sizeof(void*)*a->allocated);
 	}
 
 	a->ptr[a->count]=p;
@@ -143,7 +143,7 @@ void carray_addPtr(carray_t *a,void* ptr)
 	if(a->count==a->allocated)
 	{
 		a->allocated+=a->inc;
-		a->ptr=realloc(a->ptr,sizeof(void**)*a->allocated);
+		a->ptr=realloc(a->ptr,sizeof(void*)*a->allocated);
 	}
 
 	a->ptr[a->count]=ptr;
