@@ -1,3 +1,12 @@
+/**
+ * @Author: david
+ * @Date:   2021-12-03T19:14:15-05:00
+ * @Last modified by:   david
+ * @Last modified time: 2021-12-29T12:52:34-05:00
+ */
+
+
+
 #include <stdint.h>
 #include <inttypes.h>
 #include <stdbool.h>
@@ -50,7 +59,12 @@ typedef struct
 	// cbucket_t	*last;
 }carray_t;
 
-
+/**
+ * Initializes the global carray behaviour with options
+ * @param opt	IP address to bind to. (NULL = all interfaces)
+ *
+ * @see ca_opt carray_t
+ */
 void carray_init(carrayopt_e opt,void* value);
 
 carray_t* carray_new(void);
@@ -74,6 +88,8 @@ uint64_t carray_count(carray_t *a);
 void carray_swap(carray_t *a,uint64_t index1,uint64_t index2);
 void carray_MoveTo(carray_t *a,uint64_t from,uint64_t to);
 
+void carray_sort_selection(carray_t *a,int sort_func(void*,void*));
+void carray_sort_insertion(carray_t *arr,int sort_func(void*,void*));
 
 #define carray_length(a)		carray_count(a)
 

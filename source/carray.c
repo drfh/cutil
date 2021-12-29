@@ -1,9 +1,23 @@
+/**
+ * @Author: david
+ * @Date:   2021-12-03T19:14:15-05:00
+ * @Last modified by:   david
+ * @Last modified time: 2021-12-29T13:22:32-05:00
+ */
+
+
+
 #include "global.h"
 #include "carray.h"
+#include "mymemmove.h"
 
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+
+#ifndef __DEBUG__
+	#include <stdio.h>
+#endif
 
 #ifndef kMAX_CARRAY_GROW_HINT
 	#define kMAX_CARRAY_GROW_HINT			100000
@@ -249,23 +263,66 @@ void carray_MoveTo(carray_t *a,uint64_t from,uint64_t to)
 	}
 	if(from<a->count && to<a->count)
 	{
+		void*		temp;
+		uintptr_t	dest;
+		uintptr_t	p;
+
 		if(from<to)
 		{
-			void*	temp=(a->ptr[from]);
-			void*	dest=(a->ptr)+(sizeof(void*) * from);
+			temp=(a->ptr[from]);
+			dest=(uintptr_t)(a->ptr)+(sizeof(uintptr_t) * from);
+			p=((uintptr_t)dest + sizeof(uintptr_t));
 
-			memmove((void*)dest,(void*)((uintptr_t)dest + sizeof(void*)),(to-from) * sizeof(void*));
+			memmove((void*)dest,(void*)p,(to-from) * sizeof(void*));
 			a->ptr[to]=(void*)temp;
 		}
-		else if(from>to)
+		else if(to<from)
 		{
-			void*	temp=(a->ptr[to]);
+			temp=(a->ptr[to]);
+			dest=(uintptr_t)(a->ptr)+(sizeof(uintptr_t) * to);
+			p=(uintptr_t)(dest+sizeof(uintptr_t));
 
-			void*	dest=((&a->ptr)+(sizeof(void*) * to));
-			void*	p=(void*)(&dest+sizeof(void*));
-
-			memmove((void*)dest,(void*)p,(from-to)*sizeof(void*));
+			memmove((void*)dest,(void*)p,(from-to)*sizeof(uintptr_t));
 			a->ptr[from]=temp;
 		}
+	}
+}
+
+void carray_sort_selection(carray_t *arr,int sort_func(void*,void*))
+{
+	size_t		n=carray_count(arr);
+	size_t		i,j,position;
+
+	for(i=0;i<(n-1);i++)
+	{
+		position=i;
+
+		for(j=i+1;j<n;j++)
+		{
+			if(sort_func(carray_PtrAtindex(arr,j),carray_PtrAtindex(arr,position))<0)
+				position=j;
+		}
+		carray_swap(arr,position,i);
+	}
+}
+
+void carray_sort_insertion(carray_t *arr,int sort_func(void*,void*))
+{
+	size_t		n=carray_count(arr);
+	size_t		i;
+	(void)sort_func;
+
+	for (i = 1; i < n; i++) // finding minimum element (n-1) times
+	{
+		void*	temp=carray_PtrAtindex(arr,i);
+		int		hole=i;
+
+		while(hole>0 && strcmp(carray_PtrAtindex(arr,hole-1),temp)>0)
+		{
+			hole--;
+		}
+		printf("for(c): %ld\n",i);
+		// temp = carray_PtrAtindex(a,c);
+		carray_MoveTo(arr,hole,i-1);
 	}
 }
