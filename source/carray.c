@@ -2,7 +2,7 @@
  * @Author: david
  * @Date:   2021-12-03T19:14:15-05:00
  * @Last modified by:   david
- * @Last modified time: 2021-12-29T13:22:32-05:00
+ * @Last modified time: 2021-12-31T09:14:45-05:00
  */
 
 
@@ -32,30 +32,39 @@ carray_t* carray_newPrealloc(uint32_t hint);
 void carray_destroyClean(carray_t **a,bool clean);
 
 //	Variables(Private)
-struct carray_flags_t	default_flags={.shouldShrink=false,.isExperimental=false};
+static struct carray_flags_t	default_flags={.shouldShrink=false,.isExperimental=false,.sortAlgorithem=1,.compare=NULL,.keepSorted=0};
 /*{E}	Internals				*/
 /********************************/
 
-// static inline bool carray_IsNULL(carray_t *a)
-// {
-// 	if(a==NULL)
-// 	{
-// 		kErrorAtLineInFuntion_NULL
-// 		return true;
-// 	}
-// 	return false;
-// }
 
-
-void carray_init(carrayopt_e opt,void* value)
+void carray_init(carrayopt_e opt,const uintptr_t value)
 {
+// #ifdef _STDIO_H
+// 	if((void*)value==NULL)
+// 	{
+// 		fprintf(stderr,"%s | %s : %d | Invalid NULL value passed for option.\n",__FILE__,__func__,__LINE__);
+// 		exit(-1);
+// 	}
+// #endif
 	if(opt==eShouldShrink)
 	{
-		default_flags.shouldShrink=(bool*)value;
+		default_flags.shouldShrink=(bool)value;
 	}
 	else if(opt==eIsExperimental)
 	{
-		default_flags.isExperimental=(bool*)value;
+		default_flags.isExperimental=(bool)value;
+	}
+	else if(opt==eSortAlgorithem)
+	{
+		default_flags.sortAlgorithem=(int)value;
+	}
+	else if(opt==eCompareFunction)
+	{
+		default_flags.compare=(int(*)(const void*,const void*))(value);
+	}
+	else if(opt==eKeepSorted)
+	{
+		default_flags.keepSorted=(int)value;
 	}
 }
 
@@ -81,6 +90,8 @@ carray_t* carray_newPrealloc(uint32_t hint)
 
 	a->flags.shouldShrink=default_flags.shouldShrink;
 	a->flags.isExperimental=default_flags.isExperimental;
+	a->flags.sortAlgorithem=default_flags.sortAlgorithem;
+	a->flags.compare=(int(*)(const void*,const void*))default_flags.compare;
 	a->ptr=(void**)malloc(sizeof(void*)*hint);
 	return a;
 }
@@ -92,6 +103,14 @@ void carray_growHint(carray_t *a,uint32_t increase)
 	a->inc=increase;
 }
 
+carray_t* carray_newfrom_vector(const void* v[],const int count)
+{
+	carray_t		*a=carray_new_allocsize(count);
+
+	for(int i=0;i<count;i++)
+		carray_add(a, (void*)v[i]);
+	return a;
+}
 
 void carray_free(carray_t **a)
 {
@@ -145,6 +164,11 @@ void carray_add(carray_t *a,void* p)
 
 	a->ptr[a->count]=p;
 	a->count++;
+
+	if(a->flags.keepSorted==1)
+	{
+		carray_sort(a,NULL);
+	}
 }
 
 void carray_addPtr(carray_t *a,void* ptr)
@@ -162,6 +186,11 @@ void carray_addPtr(carray_t *a,void* ptr)
 
 	a->ptr[a->count]=ptr;
 	a->count++;
+
+	if(a->flags.keepSorted==1)
+	{
+		carray_sort(a,NULL);
+	}
 }
 
 void carray_insert(carray_t *a,void* ptr,uint64_t index)
@@ -288,7 +317,28 @@ void carray_MoveTo(carray_t *a,uint64_t from,uint64_t to)
 	}
 }
 
-void carray_sort_selection(carray_t *arr,int sort_func(void*,void*))
+void carray_sort(carray_t *arr,int (*compare)(const void*,const void*))
+{
+	fprintf(stderr,"int (*compare)(const void*,const void*) = %lu\n",(uintptr_t)compare);
+	if(compare==NULL)
+	{
+		fprintf(stderr,"arr->flags.compare = %lu\n",(uintptr_t)(int (*)(const void*,const void*))arr->flags.compare);
+		if(arr->flags.compare!=NULL)
+		{
+			carray_sort_selection(arr,arr->flags.compare);
+		}
+		else
+		{
+			fprintf(stderr,"Error: can't sort without (*compare(const void*,const void*)) function\n");
+		}
+	}
+	else
+	{
+		carray_sort_selection(arr,compare);
+	}
+}
+
+void carray_sort_selection(carray_t *arr,int (*compare)(const void*,const void*))
 {
 	size_t		n=carray_count(arr);
 	size_t		i,j,position;
@@ -299,18 +349,18 @@ void carray_sort_selection(carray_t *arr,int sort_func(void*,void*))
 
 		for(j=i+1;j<n;j++)
 		{
-			if(sort_func(carray_PtrAtindex(arr,j),carray_PtrAtindex(arr,position))<0)
+			if(compare(carray_PtrAtindex(arr,j),carray_PtrAtindex(arr,position))<0)
 				position=j;
 		}
 		carray_swap(arr,position,i);
 	}
 }
 
-void carray_sort_insertion(carray_t *arr,int sort_func(void*,void*))
+void carray_sort_insertion(carray_t *arr,int (*compare)(const void*,const void*))
 {
 	size_t		n=carray_count(arr);
 	size_t		i;
-	(void)sort_func;
+	(void)compare;
 
 	for (i = 1; i < n; i++) // finding minimum element (n-1) times
 	{
