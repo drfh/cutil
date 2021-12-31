@@ -1,0 +1,24 @@
+---
+Checks: 'clang-diagnostic-*,clang-analyzer-*,*'
+WarningsAsErrors: ''
+HeaderFilterRegex: ''
+AnalyzeTemporaryDtors: false
+FormatStyle: Allman
+UseCRLF: true
+BreakBeforeBraces: Allman
+UseTab: Always
+IndentWidth: 4
+IndentWidth: 4
+IndentCaseLabels: true
+ColumnLimit: 0
+---
+Language: C
+FormatStyle: Allman
+BasedOnStyle: GNU
+UseCRLF: true
+BreakBeforeBraces: Allman
+UseTab: Always
+IndentWidth: 4
+IndentCaseLabels: true
+ColumnLimit: 0
+---
