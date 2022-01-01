@@ -3,27 +3,38 @@ project('cutils', 'c',
 		'warning_level=3',
 		'werror=false',
 		'debug=false',
-		'optimization=0',
-		'c_std=c2x', 'build.c_std=c2x'
+		'optimization=2',
+		'c_std=c2x', 'build.c_std=c2x',
+		'default_library=static'
 		],
 	license: 'UNLICENSE',
 	version: '0.1.0',
 )
 project_description = 'Basic units, types and process code.'
+add_project_arguments('-Wpedantic', language : 'c')
+# add_project_arguments('-Wextra', language : 'c')
+add_project_arguments('-Wshadow', language : 'c')
 
 project_source_files = files(
 	'source/carray.c'
 	# ,'source/cbencode.c'
 	,'source/cdict.c'
+	,'source/cmemory.c'
 	,'source/cprint_data.c'
 	,'source/cstream.c'
 	,'source/mybzero.c'
+	,'source/mymemmove.c'
 	# ,'source/sdict.c'
 	,'source/sstring.c'
+
+	,'source/bencode.c'
+	,'source/md5.c'
+	,'source/uuid4.c'
 )
 
 project_headers = [
-	'include/carray.h'
+	'include/cutil.h'
+	,'include/carray.h'
 	# ,'include/cbencode.h'
 	,'include/cdict.h'
 	,'include/clist.h'
@@ -31,8 +42,15 @@ project_headers = [
 	,'include/cstack.h'
 	,'include/macros.h'
 	,'include/mybzero.h'
+	,'include/mymemmove.h'
 	,'include/sdict.h'
 	,'include/sstring.h'
+	,'include/types.h'
+
+	,'include/bencode.h'
+	,'include/md5.h'
+	,'include/uuid4.h'
+	,'include/ANSI-color-codes.h'
 ]
 headers = files(project_headers)
 subdir('include-workaround-meson/cutil')
@@ -48,8 +66,8 @@ build_args = [
 ]
 
 dependencies=[
-	dependency('threads')
-	,dependency('libconfig')
+	dependency('threads',static:true)
+	,dependency('libconfig',static:true)
 	# ,dependency('libcjson')
 	# ,dependency('glib-2.0')
 	# ,dependency('libcrypt')
@@ -59,12 +77,9 @@ dependencies=[
 ]
 
 # ===================================================================
-
 # ======
 # Target
 # ======
-
-
 # project_headers = include_directories('include','globals','source')
 # project_headers = include_directories('include','globals','source','source/memory','source/smart','source/xtra')
 
@@ -82,32 +97,49 @@ build_args += [
 # 	build_args += '-DMYLIB_PUBLIC=__attribute__((visibility("default")))'
 # endif
 
-project_target = shared_library(
+project_target = library(
 	meson.project_name(),
 	project_source_files,
-	# version: meson.version(),
 	install : true,
 	c_args : build_args,
-	# gnu_symbol_visibility : 'hidden',
 	include_directories : [public_headers,private_headers],
 	dependencies:dependencies
 )
-# project_target=shared_library('libpeers', project_source_files, include_directories:project_headers, dependencies:dependencies, version:'0.1.0', soversion:'0')
-# cutils=library('cutils', project_source_files, include_directories:project_headers, version : '0.1.0', soversion : '0')
+# project_target_static=static_library(
+# 	meson.project_name(),
+# 	project_source_files,
+# 	install : true,
+# 	c_args : build_args,
+# 	include_directories : [public_headers,private_headers],
+# 	dependencies:dependencies
+# )
 
+# cutils=library('cutils', project_source_files, include_directories:project_headers, version : '0.1.0', soversion : '0')
 
 # =======
 # Project
 # =======
 
 # Make this library usable as a Meson subproject.
+# project_dep = declare_dependency(
+# 	include_directories: [public_headers,'include-workaround-meson'],
+# 	link_with : project_target,
+# )
 project_dep = declare_dependency(
 	include_directories: [public_headers,'include-workaround-meson'],
-	link_with : project_target
+	link_with : project_target,
 )
+# meson.override_dependency('cutil', project_dep)
+# project_dep_static=declare_dependency(
+# 	include_directories: [public_headers,'include-workaround-meson'],
+# 	link_with : project_target_static,
+# )
+
+
 set_variable(meson.project_name() + '_dep', project_dep)
 if meson.version().version_compare('>=0.54.0')
-	meson.override_dependency('libcutil', project_dep)
+	meson.override_dependency('cutils', project_dep)
+	# meson.override_dependency('libcutil_static', project_dep_static)
 endif
 
 
@@ -123,7 +155,8 @@ pkg_mod.generate(
 	filebase : meson.project_name(),
 	description : project_description,
 	subdirs : meson.project_name(),
-	libraries : project_target,
+	# libraries : project_target,
+	# default_library:static
 )
 
 # ==========

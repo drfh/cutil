@@ -6,16 +6,18 @@
 test_build_args=[
 	'--include-prefix=cutil'
 ]
-test_base=executable('test_base','test_base.c',include_directories:public_headers,link_with:project_target)
+test_base=executable('test_base','test_base.c',include_directories:public_headers)
 test('base',test_base)
 
-test_mybzero=executable('test_mybzero','test_mybzero.c',include_directories:public_headers,dependencies:project_dep,link_with:project_target)
+test_mybzero=executable('test_mybzero','test_mybzero.c',include_directories:public_headers,dependencies:project_dep)
 test('mybzero',test_mybzero)
 
-test_sstring=executable('test_sstring','test_sstring.c',include_directories:public_headers,dependencies:project_dep,link_with:project_target)
+test_sstring=executable('test_sstring','test_sstring.c',include_directories:public_headers,dependencies:project_dep)
 test('sstring',test_sstring)
 
-test_carray=executable('test_carray','test_carray.c',include_directories:public_headers,dependencies:project_dep,link_with:project_target)
+# test_carray=executable('test_carray','test_carray.c',include_directories:public_headers,dependencies:project_dep.as_link_whole())
+# test_carray=executable('test_carray','test_carray.c',include_directories:public_headers,dependencies:project_dep_static)
+test_carray=executable('test_carray','test_carray.c',include_directories:public_headers,dependencies:project_dep)
 test('carray',test_carray)
 #
 # test_carray_alt=executable('test_carray_alt','test_carray_alt.c')
