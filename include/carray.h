@@ -2,7 +2,7 @@
  * @Author: david
  * @Date:   2021-12-03T19:14:15-05:00
  * @Last modified by:   david
- * @Last modified time: 2021-12-31T18:34:09-05:00
+ * @Last modified time: 2021-12-31T19:56:10-05:00
  */
 
 
@@ -68,7 +68,8 @@ typedef struct
 
 /**
  * Initializes the global carray behaviour with options
- * @param opt	IP address to bind to. (NULL = all interfaces)
+ * @param opt		Option that the value should be applied to
+ * @param value		Value to set for the global defaults.
  *
  * @see ca_opt carray_t
 */
