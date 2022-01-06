@@ -1,9 +1,6 @@
 /**
  * @file carray.c
  */
-
-
-
 #include "global.h"
 #include "carray.h"
 #include "mymemmove.h"
@@ -35,13 +32,6 @@ static struct carray_flags_t	default_flags={.shouldShrink=false,.isExperimental=
 
 void carray_init(carrayopt_e opt,const uintptr_t value)
 {
-// #ifdef _STDIO_H
-// 	if((void*)value==NULL)
-// 	{
-// 		fprintf(stderr,"%s | %s : %d | Invalid NULL value passed for option.\n",__FILE__,__func__,__LINE__);
-// 		exit(-1);
-// 	}
-// #endif
 	if(opt==eShouldShrink)
 	{
 		default_flags.shouldShrink=(bool)value;
