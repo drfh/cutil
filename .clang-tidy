@@ -1,17 +1,15 @@
 ---
-Checks: 'clang-diagnostic-*,clang-analyzer-*,*'
+Checks: '-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-llvm-header-guard,clang-diagnostic-*'
+#security.insecureAPI.DeprecatedOrUnsafeBufferHandling
+# Checks: '-llvm-header-guard,clang-diagnostic-*,clang-analyzer-*'
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
 FormatStyle: Allman
-UseCRLF: true
-BreakBeforeBraces: Allman
-UseTab: Always
-IndentWidth: 4
-IndentWidth: 4
-IndentCaseLabels: true
-ColumnLimit: 0
 ---
+
+---
+Checks: '-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-llvm-header-guard,clang-diagnostic-*'
 Language: C
 FormatStyle: Allman
 BasedOnStyle: GNU
