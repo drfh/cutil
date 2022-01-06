@@ -27,7 +27,6 @@ project_source_files = files(
 	# ,'source/sdict.c'
 	,'source/sstring.c'
 
-	,'source/bencode.c'
 	,'source/md5.c'
 	,'source/uuid4.c'
 )
@@ -47,7 +46,6 @@ project_headers = [
 	,'include/sstring.h'
 	,'include/types.h'
 
-	,'include/bencode.h'
 	,'include/md5.h'
 	,'include/uuid4.h'
 	,'include/ANSI-color-codes.h'
