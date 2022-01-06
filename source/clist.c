@@ -1,3 +1,7 @@
+/**
+ * @file clist.c
+ */
+
 #include "global.h"
 #include "clist.h"
 

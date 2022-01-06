@@ -1,8 +1,13 @@
-#include <stdint.h>
-#include <stdbool.h>
-
+/**
+ * @file sdict.h
+ */
 #ifndef _SDICT_H_
 #define	_SDICT_H_
+
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
+
 
 #include "cdict.h"
 

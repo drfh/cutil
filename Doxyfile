@@ -1,0 +1,65 @@
+PROJECT_NAME			= cutils
+PROJECT_NUMBER			= 0.1.0
+PROJECT_BRIEF			= A small library that contains many comon code peices that can be used to standardize many program.
+OUTPUT_DIRECTORY		= ./_build/Docs/
+OPTIMIZE_OUTPUT_FOR_C	= YES
+RECURSIVE				= YES
+JAVADOC_AUTOBRIEF		= YES
+SOURCE_BROWSER			= YES
+GENERATE_TODOLIST		= YES
+GENERATE_TESTLIST		= YES
+GENERATE_BUGLIST		= YES
+GENERATE_DEPRECATEDLIST	= YES
+
+HTML_TIMESTAMP			= YES
+HTML_DYNAMIC_MENUS		= YES
+HTML_DYNAMIC_SECTIONS	= YES
+HTML_INDEX_NUM_ENTRIES	= 100
+GENERATE_DOCSET			= YES
+
+INPUT					= include \
+						source
+FILE_PATTERNS          = *.c \
+						*.cc \
+						*.cxx \
+						*.cpp \
+						*.c++ \
+						*.java \
+						*.ii \
+						*.ixx \
+						*.ipp \
+						*.i++ \
+						*.inl \
+						*.idl \
+						*.ddl \
+						*.odl \
+						*.h \
+						*.hh \
+						*.hxx \
+						*.hpp \
+						*.h++ \
+						*.cs \
+						*.d \
+						*.php \
+						*.php4 \
+						*.php5 \
+						*.phtml \
+						*.inc \
+						*.m \
+						*.markdown \
+						*.md \
+						*.mm \
+						*.dox \
+						*.py \
+						*.pyw \
+						*.f90 \
+						*.f95 \
+						*.f03 \
+						*.f08 \
+						*.f \
+						*.for \
+						*.tcl \
+						*.vhd \
+						*.vhdl \
+						*.ucf \
+						*.qsf

@@ -1,14 +1,8 @@
-/**
- * @Author: david
- * @Date:   2021-12-03T19:14:15-05:00
- * @Last modified by:   david
- * @Last modified time: 2021-12-26T08:27:07-05:00
- */
-
-
-
-#ifndef _CUTIN_MACROS_H_
-#define	_CUTIN_MACROS_H_
+/*!
+\file "macros.h"
+*/
+#ifndef CUTIN_MACROS_H_
+#define	CUTIN_MACROS_H_
 
 #include "ANSI-color-codes.h"
 

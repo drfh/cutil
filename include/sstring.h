@@ -1,8 +1,12 @@
-#include <stdint.h>
-#include <stdbool.h>
-
+/**
+ * @file sstring.h
+ */
 #ifndef _SSTRING_H_
 #define	_SSTRING_H_
+
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
 
 #define	kSSTRING_VERSION				"1.0.0"
 #define	kSSTRING_DEFAULT_PREALLOC		32

@@ -1,6 +1,13 @@
+/**
+ * @file cutil.h
+ */
+
 #ifndef _CUTIL_H_
 #define	_CUTIL_H_
 
+/**
+ * \marco Version of the libcutil library.
+ */
 #define	kLIBCUTIL_VERSION_STR		"0.0.11"
 
 

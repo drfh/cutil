@@ -1,3 +1,6 @@
+/**
+ * @file types.h
+ */
 #ifndef CUTILS_TYPES_H
 #define CUTILS_TYPES_H
 

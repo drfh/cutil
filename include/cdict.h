@@ -1,16 +1,24 @@
-#include <stdbool.h>
-#include <stdint.h>
-#include <stddef.h>
-
+/**
+ * @file cdict.h
+ */
 #ifndef _CDICT_H_
 #define	_CDICT_H_
 
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
 
+
+#if 0
 const int16_t		err_NOERROR		=0;
 const int16_t		err_NOTFOUND	=-10;
 const int16_t		err_NOTADDED	=-11;
 //const int16_t		err_NOTFOUND	=-10;
-
+#else
+#define	err_NOERROR			0
+#define	err_NOTFOUND		-10
+#define	err_NOTADDED		-11
+#endif
 /*
 typedef enum
 {

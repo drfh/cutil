@@ -1,4 +1,7 @@
-#include "cdict.h"
+/**
+ * @file cdict.h
+ */
+
 #include "global.h"
 
 #include <stdio.h>
@@ -7,8 +10,8 @@
 #include <string.h>
 #include <memory.h>
 
-// #include "carray.h"
 #include "cmemory.h"
+#include "cdict.h"
 
 //	Variables(Private)
 //struct cdict_flags_t	default_flags={.shouldShrink=false,.isExperimental=false};

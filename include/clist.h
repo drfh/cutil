@@ -1,7 +1,12 @@
-#include <stdbool.h>
-
+/**
+ * @file clist.h
+ */
 #ifndef _CLIST_H_
 #define	_CLIST_H_
+
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
 
 
 typedef struct clist_e
