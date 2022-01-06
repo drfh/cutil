@@ -140,7 +140,7 @@ void cdict_add_kv(cdict_t *d,keyval_t *kv)
 }
 
 //inline void cdict_add(cdict_t *d,char* key,void* ptr,type_t t)
-inline void cdict_add(cdict_t *d,const char* key,void* ptr)
+void cdict_add(cdict_t *d,const char* key,void* ptr)
 {
 	keyval_t	*kv=malloc(sizeof(*kv));
 
