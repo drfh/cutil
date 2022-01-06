@@ -1,3 +1,9 @@
+/**
+ * @file sstring.c
+ * \breif Safe String c style class functions and types.
+ * \see cstring
+ */
+
 #include "sstring.h"
 
 #include <assert.h>

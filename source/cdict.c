@@ -1,5 +1,5 @@
 /**
- * @file cdict.h
+ * @file cdict.c
  */
 
 #include "global.h"
@@ -18,6 +18,9 @@
 /*{E}	Internals				*/
 /********************************/
 uint32_t cdict_get_kindex(cdict_t *d,const char* key);
+void cdict_add_kv(cdict_t *d,keyval_t *kv);
+void cdict_add(cdict_t *d,const char* key,void* ptr);
+void cdict_grow(cdict_t *d,uint32_t hint);
 
 
 
@@ -119,7 +122,7 @@ void cdict_reset(cdict_t *d)
 		d->state=err_NOERROR;
 }
 
-inline void cdict_grow(cdict_t *d,uint32_t hint)
+void cdict_grow(cdict_t *d,uint32_t hint)
 {
 	assert(d != NULL);
 	if(d->allocated<=d->count)
@@ -129,7 +132,7 @@ inline void cdict_grow(cdict_t *d,uint32_t hint)
 	}
 }
 
-inline void cdict_add_kv(cdict_t *d,keyval_t *kv)
+void cdict_add_kv(cdict_t *d,keyval_t *kv)
 {
 	cdict_grow(d,1);
 	d->array[d->count]=kv;
