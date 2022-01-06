@@ -1,8 +1,5 @@
 /**
- * @Author: david
- * @Date:   2021-12-03T19:14:15-05:00
- * @Last modified by:   david
- * @Last modified time: 2021-12-31T09:14:45-05:00
+ * @file carray.c
  */
 
 
@@ -35,7 +32,6 @@ void carray_destroyClean(carray_t **a,bool clean);
 static struct carray_flags_t	default_flags={.shouldShrink=false,.isExperimental=false,.sortAlgorithem=1,.compare=NULL,.keepSorted=0};
 /*{E}	Internals				*/
 /********************************/
-
 
 void carray_init(carrayopt_e opt,const uintptr_t value)
 {
@@ -170,7 +166,7 @@ void carray_add(carray_t *a,void* p)
 		carray_sort(a,NULL);
 	}
 }
-
+/*
 void carray_addPtr(carray_t *a,void* ptr)
 {
 	if(a==NULL)
@@ -192,7 +188,7 @@ void carray_addPtr(carray_t *a,void* ptr)
 		carray_sort(a,NULL);
 	}
 }
-
+*/
 void carray_insert(carray_t *a,void* ptr,uint64_t index)
 {
 	memmove((void*)((uint64_t)(a->ptr)+index+1),(void*)((uint64_t)(a->ptr)+index),sizeof(void*)*(a->count-index));
